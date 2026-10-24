@@ -1,0 +1,104 @@
+@import '@src/styles/functions';
+
+.root {
+  position: relative;
+  background: var(--white);
+  padding-bottom: calc(var(--layout-columns-gap) * 4);
+}
+.feature {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 2vw 4vw;
+  padding: 4.8vw;
+  border-radius: var(--layout-columns-gap);
+  color: var(--white);
+  background: radial-gradient(ellipse at 85% 30%, rgba(150,155,148,.16), transparent 55%), #222426;
+}
+.eyebrow {
+  font-size: .85vw;
+  line-height: 1.5;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  margin-bottom: 2vw;
+  > span {opacity: .45; margin: 0 .5em;}
+}
+.heading > h2 {line-height: 1.05; letter-spacing: -.035em;}
+.tagline {font-size: 1.5vw; line-height: 1.4; margin-top: 2.2vw; color: #c3c8c1;}
+.challengeTitle {font-size: .95vw; line-height: 1.5; margin-top: 2.5vw;}
+.period {font-size: .8vw; line-height: 1.6; margin-top: .7vw; color: #aeb5ad; > span {margin: 0 .5em;}}
+.standing {
+  position: relative;
+  align-self: center;
+  text-align: right;
+  .eyebrow {margin-bottom: .8vw; color: #b3b9b1;}
+}
+.rankWindow {overflow: hidden;}
+.rank {display: block; font-size: 19vw; line-height: .91; font-weight: 650; letter-spacing: -.075em; padding-right: .04em; font-variant-numeric: tabular-nums;}
+.rankLabel {font-size: 1.9vw; line-height: 1.3; margin-top: 1.2vw;}
+.field {font-size: 1vw; line-height: 1.5; margin-top: .5vw; color: #b3b9b1;}
+.finishLine {display: block; height: 2px; width: 26%; margin: 1.8vw 0 0 auto; background: #bac7b4;}
+.sequence {
+  grid-column: 1 / -1;
+  margin-top: 2vw;
+  padding-top: 1.5vw;
+  border-top: 1px solid rgba(240,244,241,.15);
+  > svg {display: block; width: 100%; height: 5vw; color: #b5c3b1; overflow: visible;}
+  path {stroke: currentColor; stroke-width: 1; stroke-dasharray: 1; opacity: .4; &:nth-child(2) {opacity: .7;}}
+  > div {display: flex; justify-content: space-between; gap: 1rem; margin-top: 1vw; font-size: .75vw; letter-spacing: .08em; color: #aeb5ad;}
+}
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 3vw 0;
+  border-bottom: 1px solid rgba(40,40,43,.2);
+  > div {padding-left: 2vw; border-left: 1px solid rgba(40,40,43,.2); &:first-child {padding-left: 0; border: 0;}}
+  dt {font-size: 1vw; line-height: 1.5; color: #61665f;}
+  dd {font-size: 3.8vw; line-height: 1.2; letter-spacing: -.04em; margin-top: .6vw; font-variant-numeric: tabular-nums;}
+}
+.overview {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 6vw;
+  padding: 6vw 0 4vw;
+  align-items: center;
+  h3 {font-size: 3.2vw;}
+  > p {max-width: 37em;}
+  .eyebrow {color: #61665f; margin-bottom: 1.6vw;}
+}
+.approachRow {
+  display: grid;
+  grid-template-columns: .2fr 1fr 1fr;
+  gap: 3vw;
+  padding: 2.5vw 0;
+  border-top: 1px solid rgba(40,40,43,.2);
+  align-items: baseline;
+  > p {color: #555b53;}
+}
+.stepNumber {font-size: .9vw; font-variant-numeric: tabular-nums; color: #61665f;}
+.bottom {padding-top: 2.5vw; border-top: 1px solid rgba(40,40,43,.2); display: flex; align-items: center; justify-content: space-between; gap: 2rem;}
+.tools {font-size: .85vw; line-height: 1.8; max-width: 40em; > span {color: #8a9086; margin: 0 .4em;}}
+.actions {display: flex; flex-wrap: wrap; gap: 1rem; flex-shrink: 0;}
+
+@include mobile {
+  .feature {grid-template-columns: 1fr; padding: 8vw 6vw; gap: 8vw;}
+  .eyebrow {font-size: 2.4vw; margin-bottom: 5vw;}
+  .heading > h2 {font-size: 10.5vw;}
+  .tagline {font-size: 4vw; margin-top: 5vw;}
+  .challengeTitle {font-size: 3vw; margin-top: 5vw;}
+  .period {font-size: 2.5vw; margin-top: 2vw;}
+  .standing {text-align: left; .eyebrow {font-size: 2.4vw; margin-bottom: 3vw;}}
+  .rank {font-size: 38vw;}
+  .rankLabel {font-size: 6vw; margin-top: 3vw;}
+  .field {font-size: 3.2vw; margin-top: 1.5vw;}
+  .finishLine {margin: 4vw 0 0; width: 18%;}
+  .sequence {margin-top: 0; padding-top: 4vw; > svg {height: 12vw;} > div {font-size: 2.3vw; margin-top: 2vw; letter-spacing: .02em;}}
+  .results {padding: 7vw 0; > div {padding-left: 3vw;} dt {font-size: 2.6vw; min-height: 8vw;} dd {font-size: 6.8vw; margin-top: 2vw;}}
+  .overview {grid-template-columns: 1fr; gap: 6vw; padding: 12vw 0 9vw; h3 {font-size: 7vw;} .eyebrow {margin-bottom: 4vw;} > p {font-size: 3.6vw;}}
+  .approachRow {grid-template-columns: 6vw 1fr; gap: 2.5vw 4vw; padding: 6vw 0; > h4 {font-size: 5.5vw;} > p {grid-column: 2; font-size: 3.3vw;}}
+  .stepNumber {font-size: 3vw;}
+  .bottom {flex-direction: column; align-items: flex-start; padding-top: 6vw; gap: 6vw;}
+  .tools {font-size: 2.8vw;}
+  .actions {gap: 3vw;}
+}

@@ -1,0 +1,14 @@
+.git/
+node_modules/
+.next/
+out/
+coverage/
+.vercel/
+.previous-redesign/
+.codex/
+.agents/
+.aws/
+.env*
+*.log
+CV_Aayaann_Kausar.pdf
+/sfp.pdf

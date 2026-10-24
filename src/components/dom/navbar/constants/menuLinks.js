@@ -1,0 +1,1 @@
+export default [{title:'Home',href:'/'},{title:'About me',href:'/about'},{title:'Projects',href:'/projects'},{title:'Research',href:'/research'},{title:'Competitions',href:'/competitions'},{title:'Contact',href:'/contact'}];
