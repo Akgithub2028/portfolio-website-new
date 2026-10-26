@@ -10,7 +10,7 @@ export default {
   finalScore: '0.3920',
   publicScore: '0.3880',
   sequenceLength: '1,000',
-  cv: '/cv/Aayaann-Kausar-CV.pdf',
+  cv: '/cv/CV_Aayaann_Kausar.pdf',
   platform: 'https://wundernn.io/',
   approach: [
     {

@@ -36,7 +36,7 @@ Optional Chromium checks can run with `node tests/browser.mjs` after a productio
 - `/competitions`: Wunder Fund’s 2025 challenge, including the CV-recorded global rank and technical approach.
 - `/contact`: email and CV links.
 
-The CV opens from `/cv/Aayaann-Kausar-CV.pdf`. **Read Paper** on `/research/sfp` opens `/papers/sfp.pdf` in a new tab, with inline PDF headers. To update the paper, replace `public/papers/sfp.pdf`. GitHub code and experiment links remain separate.
+The CV opens from `/cv/CV_Aayaann_Kausar.pdf`. **Read Paper** on `/research/sfp` opens `/papers/sfp.pdf` in a new tab, with inline PDF headers. To update the paper, replace `public/papers/sfp.pdf`. GitHub code and experiment links remain separate.
 
 Main content lives in `src/constants/projects.js`, `competitions.js`, `expertise.js`, and `quote.js`. The paper, CV, media, and required third-party notices are tracked in `public/`.
 

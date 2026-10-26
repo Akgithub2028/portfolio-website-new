@@ -24,7 +24,7 @@ test('literal application media references resolve without creator portraits or 
 test('displayed source has the owner identity and no template placeholders',async()=>{
  for(const file of sourceFiles.filter(p=>/\.(js|jsx)$/.test(p))){const text=await readFile(file,'utf8');assert.doesNotMatch(text,/Evangelos|vaggelis|Giats2498|giats\.me|Thessaloniki|Greece|Lorem ipsum|Company [1-4]|example\.com/);}
  const head=await read('src/components/dom/CustomHead.jsx');assert.match(head,/profile\.person\.name/);assert.match(head,/AI Engineer & Independent Researcher/);
- const cv=await readFile(resolve(root,'public/cv/Aayaann-Kausar-CV.pdf'));assert.equal(cv.subarray(0,5).toString(),'%PDF-');
+ const cv=await readFile(resolve(root,'public/cv/CV_Aayaann_Kausar.pdf'));assert.equal(cv.subarray(0,5).toString(),'%PDF-');
 });
 test('engineering and research data contain five actual works with consistent routes',async()=>{
  const module=await read('src/constants/projects.js');const projects=JSON.parse(module.slice(module.indexOf('['),module.lastIndexOf(']')+1));

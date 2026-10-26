@@ -14,7 +14,7 @@ export default {
       "period": "2024 — Present"
     },
     "portrait": null,
-    "cv": "/cv/Aayaann-Kausar-CV.pdf"
+    "cv": "/cv/CV_Aayaann_Kausar.pdf"
   },
   "projects": [
     {
