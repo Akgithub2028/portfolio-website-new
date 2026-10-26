@@ -10,5 +10,6 @@ coverage/
 .aws/
 .env*
 *.log
-CV_Aayaann_Kausar.pdf
+# Ignore the duplicate at the project root, while deploying public/cv/.
+/CV_Aayaann_Kausar.pdf
 /sfp.pdf

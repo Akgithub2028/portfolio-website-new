@@ -72,6 +72,35 @@ try{
   return {link,response,newTab:true};
  };
  async function runChecks(){
+  if(process.argv.includes('--cv-only')){
+   const results=[];
+   const verifyCV=async(selector)=>{
+    const link=await evaluate(`(()=>{const a=document.querySelector(${JSON.stringify(selector)});return {href:a.getAttribute('href'),target:a.target,download:a.hasAttribute('download')};})()`);
+    assert.equal(link.href,'/cv/CV_Aayaann_Kausar.pdf');assert.equal(link.target,'_blank');assert.equal(link.download,false);
+    const response=await evaluate(`(async()=>{const r=await fetch(${JSON.stringify(link.href)});const bytes=new Uint8Array(await r.arrayBuffer());return {status:r.status,type:r.headers.get('content-type'),disposition:r.headers.get('content-disposition'),magic:String.fromCharCode(...bytes.slice(0,5)),bytes:bytes.length};})()`);
+    assert.equal(response.status,200,'CV URL serves the document rather than the homepage/404');assert.match(response.type,/application\/pdf/);assert.match(response.disposition,/^inline;/);assert.equal(response.magic,'%PDF-');assert.ok(response.bytes>10000);
+    const originalPath=await evaluate('location.pathname');
+    await evaluate(`document.querySelector(${JSON.stringify(selector)}).click()`);
+    let pdfTarget;const started=Date.now();while(!pdfTarget&&Date.now()-started<12000){pdfTarget=(await call('Target.getTargets',{},null)).targetInfos.find(t=>t.type==='page'&&t.url.endsWith(link.href));if(!pdfTarget)await sleep(80);}
+    assert.ok(pdfTarget,'CV click opens a PDF tab');await sleep(500);
+    assert.equal((await call('Target.getTargetInfo',{targetId:pdfTarget.targetId},null)).targetInfo.url,base+link.href,'PDF tab does not redirect to the homepage');
+    assert.equal(await evaluate('location.pathname'),originalPath,'original portfolio page stays open');assert.equal(await evaluate(`document.querySelector('main').hasAttribute('aria-busy')`),false);
+    await call('Target.closeTarget',{targetId:pdfTarget.targetId},null);
+    results.push({selector,width:await evaluate('innerWidth'),response,newTab:true});
+   };
+   for(const mobile of [false,true]){
+    if(mobile)await call('Emulation.setDeviceMetricsOverride',{width:375,height:850,deviceScaleFactor:1,mobile:true});
+    await navigate('Contact','/contact');await verifyCV('main a[aria-label="VIEW CV"]');
+    await navigate('Competitions','/competitions');await verifyCV('main a[aria-label="VIEW CV"]');
+    await verifyCV('footer a[aria-label="Go CV"]');
+    await evaluate(`document.querySelector('[aria-label="Open Menu"]').click()`);await wait(`getComputedStyle(document.querySelector('#menu')).opacity>.95`);
+    await verifyCV('#menu a[aria-label="Find me on CV"]');
+    await evaluate(`document.querySelector('[aria-label="Close menu"]').click()`);await wait(`getComputedStyle(document.querySelector('#menu')).opacity<.05`);
+   }
+   const legacy=await evaluate(`(async()=>{const r=await fetch('/cv/Aayaann-Kausar-CV.pdf');return {status:r.status,url:r.url,type:r.headers.get('content-type'),magic:(await r.text()).slice(0,5)};})()`);
+   assert.equal(legacy.status,200);assert.equal(legacy.url,base+'/cv/CV_Aayaann_Kausar.pdf');assert.match(legacy.type,/application\/pdf/);assert.equal(legacy.magic,'%PDF-');
+   assert.deepEqual(errors,[]);console.log(JSON.stringify({cv:results,legacy,errors},null,2));return;
+  }
   if(process.argv.includes('--paper-only')){
    const navigation=await navigate('Research','/research');await evaluate(`document.querySelector('main a[href="/research/sfp"]').click()`);await wait(`location.pathname==='/research/sfp' && !document.querySelector('main').hasAttribute('aria-busy') && document.querySelector('#loader').dataset.transition==='idle'`);
    const paper=await verifyPaper();assert.deepEqual(errors,[]);console.log(JSON.stringify({navigation,paper,errors},null,2));return;

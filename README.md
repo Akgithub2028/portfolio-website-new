@@ -36,7 +36,9 @@ Optional Chromium checks can run with `node tests/browser.mjs` after a productio
 - `/competitions`: Wunder Fund’s 2025 challenge, including the CV-recorded global rank and technical approach.
 - `/contact`: email and CV links.
 
-The CV opens from `/cv/CV_Aayaann_Kausar.pdf`. **Read Paper** on `/research/sfp` opens `/papers/sfp.pdf` in a new tab, with inline PDF headers. To update the paper, replace `public/papers/sfp.pdf`. GitHub code and experiment links remain separate.
+The CV opens from `/cv/CV_Aayaann_Kausar.pdf` in a new tab, with inline PDF headers. The previous `/cv/Aayaann-Kausar-CV.pdf` URL redirects to it. To update the CV, replace `public/cv/CV_Aayaann_Kausar.pdf`. Keep the duplicate CV exclusion in `.vercelignore` anchored to the project root (`/CV_Aayaann_Kausar.pdf`) so the public document is deployed. **Read Paper** on `/research/sfp` opens `/papers/sfp.pdf` in a new tab, with inline PDF headers. To update the paper, replace `public/papers/sfp.pdf`. GitHub code and experiment links remain separate.
+
+Run `node tests/browser.mjs --cv-only` after a production build to check CV responses and new-tab behavior from Contact, Competitions, the footer, and the menu at desktop and mobile widths. Set `TEST_BASE_URL` to check a deployed site.
 
 Main content lives in `src/constants/projects.js`, `competitions.js`, `expertise.js`, and `quote.js`. The paper, CV, media, and required third-party notices are tracked in `public/`.
 

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir,stat} from 'node:fs/promises';
 import {resolve,extname} from 'node:path';
 import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
 const root=resolve(import.meta.dirname,'..');
 const read=path=>readFile(resolve(root,path),'utf8');
 async function files(dir){const result=[];for(const e of await readdir(dir,{withFileTypes:true})){const p=resolve(dir,e.name);result.push(...(e.isDirectory()?await files(p):[p]));}return result;}
@@ -86,6 +87,18 @@ test('SFP links to the bundled paper with inline PDF response headers',async()=>
  const original=resolve(root,'sfp.pdf');if(await exists(original))assert.equal(createHash('sha256').update(pdf).digest('hex'),createHash('sha256').update(await readFile(original)).digest('hex'),'public paper matches the supplied PDF');
  const {createRequire}=await import('node:module');const require=createRequire(import.meta.url);const config=require('../next.config.js');const rules=await config.headers();
  const headers=Object.fromEntries(rules.find(rule=>rule.source===sfp.paperLink).headers.map(header=>[header.key.toLowerCase(),header.value]));assert.equal(headers['content-type'],'application/pdf');assert.match(headers['content-disposition'],/^inline;/);
+});
+
+test('the CV is included in deployment and both document URLs serve it inline',async()=>{
+ const cv='/cv/CV_Aayaann_Kausar.pdf';
+ const pdf=await readFile(resolve(root,'public','.'+cv));assert.equal(pdf.subarray(0,5).toString(),'%PDF-');assert.ok(pdf.length>10000);
+ // Use Git's ignore-pattern matcher, since Vercel applies the same path semantics.
+ const excluded=execFileSync('git',['ls-files','--cached','--ignored','--exclude-from=.vercelignore','--','public/'],{cwd:root,encoding:'utf8'}).trim();
+ assert.equal(excluded,'','public assets must not match deployment exclusion rules');
+ const {createRequire}=await import('node:module');const require=createRequire(import.meta.url);const config=require('../next.config.js');
+ const rule=(await config.headers()).find(rule=>rule.source===cv);assert.ok(rule,'CV has document headers');
+ const headers=Object.fromEntries(rule.headers.map(header=>[header.key.toLowerCase(),header.value]));assert.equal(headers['content-type'],'application/pdf');assert.match(headers['content-disposition'],/^inline;/);
+ const legacy=(await config.redirects()).find(rule=>rule.source==='/cv/Aayaann-Kausar-CV.pdf');assert.equal(legacy.destination,cv);assert.equal(legacy.permanent,true);
 });
 
 test('Vercel configuration and lockfile agree on the production runtime',async()=>{

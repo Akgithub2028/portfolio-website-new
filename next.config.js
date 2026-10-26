@@ -34,6 +34,13 @@ const nextConfig = {
   },
   headers: async () => [
     {
+      source: '/cv/CV_Aayaann_Kausar.pdf',
+      headers: [
+        { key: 'Content-Type', value: 'application/pdf' },
+        { key: 'Content-Disposition', value: 'inline; filename="CV_Aayaann_Kausar.pdf"' },
+      ],
+    },
+    {
       source: '/papers/sfp.pdf',
       headers: [
         { key: 'Content-Type', value: 'application/pdf' },
@@ -60,6 +67,11 @@ const nextConfig = {
     },
   ],
   redirects: async () => [
+    {
+      source: '/cv/Aayaann-Kausar-CV.pdf',
+      destination: '/cv/CV_Aayaann_Kausar.pdf',
+      permanent: true,
+    },
     {
       source: '/home',
       destination: '/',
